@@ -24,6 +24,7 @@ public class Menu extends AppCompatActivity implements MenuClickListener {
     private Button save_item;
     private TextView total_money1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,7 @@ public class Menu extends AppCompatActivity implements MenuClickListener {
 
         save_item = findViewById(R.id.save_item);
         total_money1 = findViewById(R.id.total_money1);
+
         ArrayList<MenuData> list = adapter.getList();
         int sum = 0;
         for( int j = 0; j<list.size(); j++){

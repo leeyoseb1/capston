@@ -21,6 +21,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.part1_login);
 
 
+
         btn_login = findViewById(R.id.btn_login);
 
         btn_login.setOnClickListener((view) -> {

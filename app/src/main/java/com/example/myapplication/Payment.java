@@ -29,6 +29,14 @@ public class Payment extends AppCompatActivity implements MenuClickListener{
         setContentView(R.layout.part4_payment);
 
         init1();    getData();
+
+
+      btn_payment = findViewById(R.id.btn_payment);
+
+      btn_payment.setOnClickListener((view)->{
+          Intent intent = new Intent(Payment.this, Serve.class);
+          startActivity(intent);
+      });
     }
 
     private void init1() {
@@ -52,7 +60,7 @@ public class Payment extends AppCompatActivity implements MenuClickListener{
             adapter.addItem(list.get(i));
         }Log.d("MONEY","MONEY");
         //데이터가 어떤것이 들어있는지 모르니까 전부 출력
-        // .
+        //
         for( int j = 0; j<list.size(); j++){
             sum += list.get(j).getContent();
         }

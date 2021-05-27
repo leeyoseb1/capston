@@ -1,7 +1,7 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -12,12 +12,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class Serve extends AppCompatActivity implements View.OnClickListener {
-    private Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn10,
-            btn11,btn12,btn13,btn14,btn15,btn16,btn17,btn18,btn19,btn20,
-            btn21,btn22,btn23,btn24,btn25,btn26,btn27,btn28,btn29,btn30,
-            btn31,btn32,btn33,btn34,btn35,btn36,btn37,btn38,btn39,btn40;
+    /**
+     * private Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn10,
+     *             btn11,btn12,btn13,btn14,btn15,btn16,btn17,btn18,btn19,btn20,
+     *             btn21,btn22,btn23,btn24,btn25,btn26,btn27,btn28,btn29,btn30,
+     *             btn31,btn32,btn33,btn34,btn35,btn36,btn37,btn38,btn39,btn40;
+     */
+
+    private Button btn_serve;
     private Button[] mButton = new Button[40];
     private ArrayList<String> mDataList;
+    private long btnPressTime = 0;
+    private String list ;
+
+
+    public ArrayList<String> getmDataList(){
+        return this.mDataList;
+    }
 
 
     @Override
@@ -26,6 +37,7 @@ public class Serve extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.part3_serve);
 
         mDataList = new ArrayList<String>();
+        btn_serve = findViewById(R.id.btn_serve);
 
         mButton[0] = findViewById(R.id.btn1);
         mButton[1] = findViewById(R.id.btn2);
@@ -77,9 +89,18 @@ public class Serve extends AppCompatActivity implements View.OnClickListener {
             mDataList.add((i+1)+"번");
         }
 
+        btn_serve.setOnClickListener((view)->{
+            Intent intent = new Intent(Serve.this,Information.class);
+           startActivity(intent);
+        });
+
     }
 
+
+
+
     @Override
+
     public void onClick(View v) {
         Button newButton = (Button)v;
         for(Button tempButton : mButton)
@@ -87,7 +108,26 @@ public class Serve extends AppCompatActivity implements View.OnClickListener {
             // 클릭된 버튼을 찾았으면
             if(tempButton == newButton)
             {
-                newButton.setOnTouchListener(new View.OnTouchListener() {
+                // 위에서 저장한 버튼의 포지션을 태그로 가져옴
+                int position = (Integer)v.getTag();
+
+                list = mDataList.get(position);
+
+                if(System.currentTimeMillis() > btnPressTime + 1000){
+                    btnPressTime = System.currentTimeMillis();
+                    newButton.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.black));
+                    // 태그로 가져온 포지션을 이용해 리스트에서 출력할 데이터를 꺼내서 토스트 메시지 출력
+                    Toast.makeText(this, list, Toast.LENGTH_SHORT).show();
+                    return ;
+                }
+                if(System.currentTimeMillis() < btnPressTime + 1000){
+                    btnPressTime = System.currentTimeMillis();
+                    newButton.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.pink));
+
+                    return ;
+                }
+/**
+                newButton.setOnTouchListener( new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         switch (event.getAction()) {
@@ -96,23 +136,19 @@ public class Serve extends AppCompatActivity implements View.OnClickListener {
                                 newButton.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.black));
                                 break;
                             }
-                            case MotionEvent.ACTION_BUTTON_RELEASE:
-
-                                newButton.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.white));
-                                break;
                         }
                         return false;
                     }
                 });
-                // 위에서 저장한 버튼의 포지션을 태그로 가져옴
-                int position = (Integer)v.getTag();
+ */
 
 
 
-                // 태그로 가져온 포지션을 이용해 리스트에서 출력할 데이터를 꺼내서 토스트 메시지 출력
-                Toast.makeText(this, mDataList.get(position), Toast.LENGTH_SHORT).show();
+
+
             }
         }
 
     }
 }
+
