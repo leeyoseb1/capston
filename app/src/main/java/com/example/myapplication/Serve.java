@@ -23,7 +23,8 @@ public class Serve extends AppCompatActivity implements View.OnClickListener {
     private Button[] mButton = new Button[40];
     private ArrayList<String> mDataList;
     private long btnPressTime = 0;
-    private String list ;
+    private String list;
+    private String price;
 
 
     public ArrayList<String> getmDataList(){
@@ -89,10 +90,17 @@ public class Serve extends AppCompatActivity implements View.OnClickListener {
             mDataList.add((i+1)+"번");
         }
 
+        Intent i =getIntent();
+        price = i.getStringExtra("Payment");
         btn_serve.setOnClickListener((view)->{
             Intent intent = new Intent(Serve.this,Information.class);
-           startActivity(intent);
+
+            intent  = intent.putExtra("number", list);
+            intent = intent.putExtra("Price",price);
+
+            startActivity(intent);
         });
+
 
     }
 
@@ -111,13 +119,13 @@ public class Serve extends AppCompatActivity implements View.OnClickListener {
                 // 위에서 저장한 버튼의 포지션을 태그로 가져옴
                 int position = (Integer)v.getTag();
 
-                list = mDataList.get(position);
+                list= mDataList.get(position);
 
                 if(System.currentTimeMillis() > btnPressTime + 1000){
                     btnPressTime = System.currentTimeMillis();
                     newButton.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.black));
                     // 태그로 가져온 포지션을 이용해 리스트에서 출력할 데이터를 꺼내서 토스트 메시지 출력
-                    Toast.makeText(this, list, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, mDataList.get(position), Toast.LENGTH_SHORT).show();
                     return ;
                 }
                 if(System.currentTimeMillis() < btnPressTime + 1000){
@@ -126,6 +134,7 @@ public class Serve extends AppCompatActivity implements View.OnClickListener {
 
                     return ;
                 }
+
 /**
                 newButton.setOnTouchListener( new View.OnTouchListener() {
                     @Override

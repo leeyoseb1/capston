@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -22,6 +21,10 @@ public class Payment extends AppCompatActivity implements MenuClickListener{
     private MenuAdapter adapter;
     private Button btn_payment;
     private TextView total_money;
+    private SpannableString content;
+    private String Price ;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class Payment extends AppCompatActivity implements MenuClickListener{
 
       btn_payment.setOnClickListener((view)->{
           Intent intent = new Intent(Payment.this, Serve.class);
+          intent.putExtra("Payment",Price);
           startActivity(intent);
       });
     }
@@ -54,7 +58,7 @@ public class Payment extends AppCompatActivity implements MenuClickListener{
         Intent intent =getIntent();
         ArrayList<MenuData> list = (ArrayList<MenuData>)intent.getSerializableExtra("list"); // 인텐트로 객체자체를 옮길때 Serial사용
 
-        int sum = 0;
+        int sum =0;
 
         for (int i = 0; i < list.size(); i++){
             adapter.addItem(list.get(i));
@@ -64,10 +68,11 @@ public class Payment extends AppCompatActivity implements MenuClickListener{
         for( int j = 0; j<list.size(); j++){
             sum += list.get(j).getContent();
         }
-        SpannableString content = new SpannableString(String.valueOf(sum)+"원");
+        content = new SpannableString(String.valueOf(sum)+"원");
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         total_money.setText(content); //
 
+        Price = String.valueOf(sum);
         Log.d("MONEY1","MONEY");
 
     }
@@ -76,6 +81,10 @@ public class Payment extends AppCompatActivity implements MenuClickListener{
         adapter.addItem(menu);
         adapter.notifyDataSetChanged();
         Log.d("onClickMenu", String.format("%s %s", menu.getTitle(), menu.getContent()));
+    }
+    public String getPrice(){
+
+       return this.Price;
     }
 }
 
